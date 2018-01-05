@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document3</title>
+    <style>
+    .token.cdata,
+    .token.comment,
+    .token.doctype,
+    .token.prolog {
+        color: #708090
+    }
+
+    .token.punctuation {
+        color: #999
+    }
+
+    .namespace {
+        opacity: .7
+    }
+
+    .token.boolean,
+    .token.constant,
+    .token.deleted,
+    .token.number,
+    .token.property,
+    .token.symbol,
+    .token.tag {
+        color: #905
+    }
+
+    .token.attr-name,
+    .token.builtin,
+    .token.char,
+    .token.inserted,
+    .token.selector,
+    .token.string {
+        color: #690
+    }
+
+    .language-css .token.string,
+    .style .token.string,
+    .token.entity,
+    .token.operator,
+    .token.url {
+        color: #a67f59;
+        background: hsla(0, 0%, 100%, .5)
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: #07a
+    }
+
+    .token.function {
+        color: #DD4A68
+    }
+
+    .token.important,
+    .token.regex,
+    .token.variable {
+        color: #e90
+    }
+
+    .token.bold,
+    .token.important {
+        font-weight: 700
+    }
+
+    .token.italic {
+        font-style: italic
+    }
+
+    .token.entity {
+        cursor: help
+    }
+
+    pre[data-line] {
+        padding: 1em 0 1em 3em
+    }
+
+    .line-highlight {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin-top: 1em;
+        background: hsla(24, 20%, 50%, .08);
+        background: -moz-linear-gradient(left, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+        background: -webkit-linear-gradient(left, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+        background: -o-linear-gradient(left, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+        background: linear-gradient(left, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+        pointer-events: none;
+        line-height: inherit;
+        white-space: pre
+    }
+
+    .line-highlight:before,
+    .line-highlight[data-end]:after {
+        content: attr(data-start);
+        position: absolute;
+        top: .4em;
+        left: .6em;
+        min-width: 1em;
+        padding: 0 .5em;
+        background-color: hsla(24, 20%, 50%, .4);
+        color: #f4f1ef;
+        font: 700 65%/1.5 sans-serif;
+        text-align: center;
+        vertical-align: .3em;
+        border-radius: 999px;
+        text-shadow: none;
+        box-shadow: 0 1px #fff
+    }
+
+    pre.line-numbers,
+    pre.line-numbers>code {
+        position: relative
+    }
+
+    .line-highlight[data-end]:after {
+        content: attr(data-end);
+        top: auto;
+        bottom: .4em
+    }
+
+    pre.line-numbers {
+        padding-left: 3.8em;
+        counter-reset: linenumber
+    }
+
+    .line-numbers-rows {
+        display: none
+    }
+
+    .line-numbers .line-numbers-rows {
+        display: block;
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        font-size: 100%;
+        left: -3.8em;
+        width: 3em;
+        letter-spacing: -1px;
+        border-right: 1px solid #999;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+
+    .line-numbers-rows>span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber
+    }
+
+    .line-numbers-rows>span:before {
+        content: counter(linenumber);
+        color: #999;
+        display: block;
+        padding-right: .8em;
+        text-align: right
+    }
+
+    .token.key {
+        color: #960
+    }
+
+    .text-content pre[class*=language-],
+    pre.syntaxbox,
+    pre.twopartsyntaxbox {
+        font-size: 16px;
+        font-size: 1rem;
+        background: #eee;
+        border: 0 solid #3f87a6;
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding: 15px;
+        position: relative;
+        font-family: consolas, monaco, "Andale Mono", monospace;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.5;
+        overflow: auto;
+        direction: ltr!important;
+        text-align: left!important;
+        border-left-width: 5px!important;
+        border-right-width: 0!important;
+        -moz-tab-size: 4;
+        tab-size: 4;
+        -moz-hyphens: none;
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none
+    }
+
+    .text-content html[dir=rtl] pre[class*=language-],
+    html[dir=rtl] .text-content pre[class*=language-],
+    html[dir=rtl] pre.syntaxbox,
+    html[dir=rtl] pre.twopartsyntaxbox {
+        border-left-width: 0;
+        border-right-width: 5px
+    }
+
+    .text-content pre[class*=language-]>:last-child,
+    pre.syntaxbox>:last-child,
+    pre.twopartsyntaxbox>:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0
+    }
+
+    .text-content pre[class*=language-] p,
+    pre.syntaxbox p,
+    pre.twopartsyntaxbox p {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%
+    }
+
+    .text-content pre[class*=language-] p dl,
+    .text-content pre[class*=language-] p p,
+    .text-content pre[class*=language-] p ul,
+    pre.syntaxbox p dl,
+    pre.syntaxbox p p,
+    pre.syntaxbox p ul,
+    pre.twopartsyntaxbox p dl,
+    pre.twopartsyntaxbox p p,
+    pre.twopartsyntaxbox p ul {
+        max-width: 100%
+    }
+
+    .text-content pre[class*=language-] code,
+    pre.syntaxbox code,
+    pre.twopartsyntaxbox code {
+        background-color: transparent;
+        font-style: normal;
+        font-weight: inherit;
+        padding: 0
+    }
+
+    .text-content pre[class*=language-] {
+        margin: 0 0 20px
+    }
+
+    .text-content pre[class*=language-] span.comment {
+        display: inherit
+    }
+
+    .text-content code[class*=language-]>code[class*=language-] {
+        background-color: none
+    }
+
+    .text-content code[class*=language-],
+    .text-content pre[class*=language-] {
+        color: #333;
+        text-shadow: none
+    }
+
+    .text-content pre.line-numbers {
+        padding-left: 3.8em
+    }
+
+    .language-css .token.string,
+    .style .token.string,
+    .token.entity,
+    .token.operator,
+    .token.url {
+        background-color: transparent
+    }
+
+    .line-highlight {
+        padding: 0
+    }
+
+    .line-highlight:before {
+        display: none
+    }
+
+    pre.syntaxbox,
+    pre.twopartsyntaxbox {
+        background: #e4f0f5;
+        white-space: pre-wrap
+    }
+
+    pre.twopartsyntaxbox {
+        margin-bottom: 0
+    }
+
+    .error pre[class*=language-] {
+        margin: 10px 0 0;
+        background: 0 0
+    }
+
+    .text-content .example,
+    .text-content .example-bad,
+    .text-content .example-good {
+        font-size: 16px;
+        font-size: 1rem;
+        background: #eee;
+        border: 0 solid #696969;
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding: 15px;
+        position: relative;
+        border-left-width: 5px
+    }
+
+    html[dir=rtl] .text-content .example,
+    html[dir=rtl] .text-content .example-bad,
+    html[dir=rtl] .text-content .example-good {
+        border-left-width: 0;
+        border-right-width: 5px
+    }
+
+    .text-content .example-bad>:last-child,
+    .text-content .example-good>:last-child,
+    .text-content .example>:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0
+    }
+
+    .text-content .example-bad:after,
+    .text-content .example-good:after,
+    .text-content .example:after {
+        font-family: FontAwesome;
+        font-size: 22px;
+        line-height: 1;
+        position: absolute;
+        bottom: 2px;
+        z-index: 10;
+        speak: none;
+        right: 2px
+    }
+
+    html[dir=rtl] .text-content .example-bad:after,
+    html[dir=rtl] .text-content .example-good:after,
+    html[dir=rtl] .text-content .example:after {
+        right: auto;
+        left: 2px
+    }
+
+    html[dir=rtl] .text-content pre[class*=language-].example-bad:after,
+    html[dir=rtl] .text-content pre[class*=language-].example-good:after,
+    html[dir=rtl] .text-content pre[class*=language-].example:after {
+        right: 2px;
+        left: auto
+    }
+
+    .text-content .example-good,
+    .text-content pre[class*=language-].example-good {
+        background-color: #f6faf3;
+        border-color: #4d9f0c
+    }
+
+    .text-content .example-good:after,
+    .text-content pre[class*=language-].example-good:after {
+        background: #f6faf3;
+        color: #4d9f0c;
+        content: '\f118'
+    }
+
+    .text-content .example-bad,
+    .text-content pre[class*=language-].example-bad {
+        background-color: #fef7f7;
+        border-color: #e66465
+    }
+
+    .text-content .example-bad:after,
+    .text-content pre[class*=language-].example-bad:after {
+        background: #fef7f7;
+        color: #e66465;
+        content: '\f119'
+    }
+
+    code[class*=language-],
+    pre[class*=language-] {
+        color: #000;
+        text-shadow: 0 1px #fff;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        direction: ltr;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="text-content">
+        <article>
+            <pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">controls</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>foo.webm<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/webm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>foo.ogg<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/ogg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> 
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>foo.mov<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/quicktime<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  죄송합니다. 당신의 브라우저는 HTML5 동영상을 지원하지 않습니다.
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>video</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></article>
+    </div>
+</body>
+
+</html>
